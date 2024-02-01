@@ -1,23 +1,47 @@
-drop database if exists relacion0;
-create database if not exists relacion0;
+DROP DATABASE IF EXISTS relacion0;
+CREATE DATABASE IF NOT EXISTS relacion0;
 
-use relacion0;
+USE relacion0;
 
-create table if not exists clientes (
-nif char (9) primary key,
-nombre varchar (25) not null,
-domicilio varchar (100),
-telefono varchar (25),
-ciudad varchar (50)
+CREATE TABLE IF NOT EXISTS clientes (
+nif CHAR(9) PRIMARY KEY,
+nombre VARCHAR(25) NOT NULL,
+domicilio VARCHAR(100),
+tlf VARCHAR(25),
+ciudad VARCHAR(50)
 );
 
-create table if not exists productos (
-codigo char (4) primary key,
-descripcion varchar (100) not null,
-precio float,
-stock float,
-minimo float
-check (precio > 0)
+CREATE TABLE IF NOT EXISTS productos (
+	codigo CHAR(4) PRIMARY KEY,
+	descripcion VARCHAR(100) NOT NULL,
+    precio FLOAT,
+    stock FLOAT,
+    minimo FLOAT,
+    CHECK (precio > 0)
+);
+
+CREATE TABLE IF NOT EXISTS facturas (
+numero INTEGER PRIMARY KEY,
+fecha DATE,
+pagado BOOLEAN,
+total_precio FLOAT,
+nif_cliente CHAR(9),
+FOREIGN KEY (nif_cliente) REFERENCES clientes(nif)
+ON DELETE CASCADE
+ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS detalles (
+numero INTEGER,
+codigo CHAR(4),
+unidades INTEGER,
+PRIMARY KEY(numero, codigo),
+FOREIGN KEY (numero) REFERENCES facturas(numero)
+ON DELETE CASCADE
+ON UPDATE CASCADE,
+FOREIGN KEY (codigo) REFERENCES productos(codigo)
+ON DELETE CASCADE
+ON UPDATE CASCADE
 );
 
 insert into clientes (nif, nombre , domicilio, telefono, ciudad) values
@@ -60,3 +84,34 @@ INSERT INTO detalles (numero, codigo, unidades) VALUES
 (5445, "TOR8", 5),
 (5445, "TUE2", 5),
 (5445, "TUE3", 5);
+
+/* a. Mostrar todos los datos introducidos en cada una de las tablas */ 
+SELECT * FROM productos;
+SELECT * FROM clientes;
+SELECT * FROM facturas;
+SELECT * FROM detalles;
+
+/* b. Reemplazar la ciudad del cliente con DNI 51664372R por Granada. */
+UPDATE clientes
+SET ciudad = "Granada"
+WHERE nif = "51664372R";
+
+/* c. Actualizar todos los precios de los productos con un aumento del 10% */
+UPDATE productos
+SET precio = precio * 1.1;
+
+/* d. Aumentar el stock en 20 unidades para todos los productos y disminuir
+el precio de los productos en un 30% */
+
+UPDATE productos
+SET stock = stock + 20, precio = precio * 0.70;
+
+/*e. A los productos en los que haya un mínimo de 100 unidades, hacerle un
+descuento al precio del 50%*/
+UPDATE productos
+SET precio = precio * 0.5
+WHERE stock >= 100;
+
+/*f. Eliminar al cliente cuyo dni sea 51664372R*/
+DELETE FROM clientes
+WHERE nif = "51664372R";
