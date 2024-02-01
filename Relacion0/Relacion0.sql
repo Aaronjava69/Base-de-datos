@@ -1,5 +1,5 @@
 drop database if exists relacion0;
-create database if not exists Relacion0;
+create database if not exists relacion0;
 
 use relacion0;
 
