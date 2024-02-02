@@ -51,3 +51,17 @@ INSERT INTO relaciones (id_alumno, id_profesor, nota) VALUES
 ('A04', 'P02', 10),
 ('A05', 'P01', 2.75),
 ('A05', 'P02', 8.45);
+
+/*3.- Mostrar todos los nombres de los alumnos con sus teléfonos.*/
+SELECT nombre_alumno, telefono_alumno FROM alumnos;
+
+/*4.- Mostrar los nombres de los alumnos ordenados en orden creciente y decreciente.*/
+SELECT nombre_alumno FROM alumnos
+ORDER BY nombre_alumno DESC;
+
+SELECT nombre_alumno FROM alumnos
+ORDER BY nombre_alumno ASC;
+
+/*5.- Mostrar los alumnos ordenados por edad.*/
+SELECT fecha_alumno FROM alumnos
+order by fecha_alumno;
