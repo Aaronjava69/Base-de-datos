@@ -1,3 +1,4 @@
+/*
 CREATE DATABASE Ejemplo1; #crear una base de datos nueva
 
 USE Ejemplo1 #usa la tabla 
@@ -13,3 +14,6 @@ SELECT * FROM ejemplo1
 #Se pone debajo de una foreign key
 ON DELETE CASCADE
 ON UPDATE CASCADE 
+
+as = como
+*/

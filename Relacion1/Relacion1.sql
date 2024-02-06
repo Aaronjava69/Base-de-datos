@@ -65,3 +65,58 @@ ORDER BY nombre_alumno ASC;
 /*5.- Mostrar los alumnos ordenados por edad.*/
 SELECT fecha_alumno FROM alumnos
 order by fecha_alumno;
+
+/*6.- Mostrar nombre de alumnos que contengan alguna ‘A’ en el nombre.*/
+SELECT nombre_alumno FROM alumnos
+WHERE nombre_alumno like "A%";
+
+/*7.- Mostrar id_al ordenado por nota.*/
+SELECT id_alumno FROM relaciones
+order by nota;
+
+/*8.- Mostrar nombre alumno y nombre de sus respectivos profesores.*/
+SELECT a.nombre_alumno as nombre_alumno, p.nombre_profesor as nombre_profesor FROM alumnos a
+JOIN relaciones r on a.id_alumno = r.id_alumno
+JOIN profesores p on p.id_profesor = r.id_profesor;
+
+/*9.- Mostrar el nombre de los alumnos que les de clase el profesor P01*/
+SELECT a.nombre_alumno as nombre_alumno FROM alumnos a
+JOIN relaciones r on a.id_alumno = r.id_alumno
+JOIN profesores p on p.id_profesor = "P01";
+
+/*10.- Mostrar el nombre y la nota de los alumnos que les de clase el profesor ‘FERNAND0 GARCIA’.*/
+SELECT a.nombre_alumno as nombre_alumno, r.nota FROM alumnos a
+JOIN relaciones r on a.id_alumno = r.id_alumno
+JOIN profesores p on p.nombre_profesor = "FERNANDO GARCIA";
+
+/*11.- Mostrar todos los alumnos (codigo) que hayan aprobado con el profesor P01.*/
+SELECT a.id_alumno as id_alumno FROM alumnos a 
+JOIN relaciones r on a.id_alumno = r.id_alumno
+JOIN profesores p on p.id_profesor = "P01"
+WHERE r.nota >=5;
+
+/*12.- Mostrar todos los alumnos (nombre) que hayan aprobado con el profesor P01.*/
+SELECT a.nombre_alumno as nombre_alumno FROM alumnos a 
+JOIN relaciones r on a.id_alumno = r.id_alumno
+JOIN profesores p on p.id_profesor = "P01"
+WHERE r.nota >=5;
+
+/*13.- Mostrar todos los alumnos (nombre) que hayan aprobado con el profesor ‘CARMEN TORRES’.*/
+SELECT a.nombre_alumno as nombre_alumno FROM alumnos a
+JOIN relaciones r on a.id_alumno = r.id_alumno
+JOIN profesores p on p.nombre_profesor = "CARMEN TORRES";
+
+/*14.- Mostrar el alumno/s que haya obtenido la nota más alta con ‘P01’,*/
+SELECT a.nombre_alumno as nombre_alumno FROM alumnos a
+JOIN relaciones r on a.id_alumno = r.id_alumno
+JOIN profesores p on p.id_profesor = "P01"
+ORDER BY r.nota DESC
+LIMIT 1; #La cláusula "limit" se usa para restringir los registros que se retornan en una consulta "select".
+
+/*15.- Mostrar los alumnos (nombre y codigo) que hayan aprobado todo.*/
+SELECT DISTINCT a.id_alumno as id_alumno, a.nombre_alumno as nombre_alumno FROM alumnos a
+JOIN relaciones r on r.id_alumno = a.id_alumno
+WHERE NOT EXISTS (
+			SELECT 1 FROM relaciones r2
+            WHERE r2.id_alumno = a.id_alumno AND r2.nota < 5
+            );
