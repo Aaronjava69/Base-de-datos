@@ -146,4 +146,11 @@ INSERT INTO Relacion2 (id_zona, id_ciudad, id_cart, id_per) VALUES
 ('Z05', 'C01', 'CT3', 'PE4');
 
 /*CONSULTAS: 
-1.-NOMBRE DE CIUDAD CON MÁS HABITANTES/
+1.-NOMBRE DE CIUDAD CON MÁS HABITANTES*/
+SELECT num_hab, nom_ciud FROM ciudad
+WHERE num_hab = (
+	SELECT max(num_hab)
+    FROM ciudad
+);
+
+/*2.- NOMBRE DEL CARTERO CON MAYOR SUELDO*/
