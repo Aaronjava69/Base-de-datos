@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS relacion1;
-CREATE DATABASE IF NOT EXISTS relacion1;
+DROP DATABASE IF EXISTS Relacion1;
+CREATE DATABASE IF NOT EXISTS Relacion1;
 
-USE relacion1;
+USE Relacion1;
 
 CREATE TABLE IF NOT EXISTS alumnos (
 id_alumno CHAR (3) PRIMARY KEY,
@@ -63,12 +63,12 @@ SELECT nombre_alumno FROM alumnos
 ORDER BY nombre_alumno ASC;
 
 /*5.- Mostrar los alumnos ordenados por edad.*/
-SELECT fecha_alumno FROM alumnos
+SELECT * FROM alumnos
 order by fecha_alumno;
 
 /*6.- Mostrar nombre de alumnos que contengan alguna ‘A’ en el nombre.*/
-SELECT nombre_alumno FROM alumnos
-WHERE nombre_alumno like "A%";
+SELECT nombre_alumno AS nombre FROM alumnos
+WHERE nombre_alumno like "%A%";
 
 /*7.- Mostrar id_al ordenado por nota.*/
 SELECT id_alumno FROM relaciones
@@ -82,7 +82,7 @@ JOIN profesores p on p.id_profesor = r.id_profesor;
 /*9.- Mostrar el nombre de los alumnos que les de clase el profesor P01*/
 SELECT a.nombre_alumno as nombre_alumno FROM alumnos a
 JOIN relaciones r on a.id_alumno = r.id_alumno
-JOIN profesores p on p.id_profesor = "P01";
+WHERE r.id_profesor LIKE 'P01';
 
 /*10.- Mostrar el nombre y la nota de los alumnos que les de clase el profesor ‘FERNAND0 GARCIA’.*/
 SELECT a.nombre_alumno as nombre_alumno, r.nota FROM alumnos a
@@ -90,10 +90,10 @@ JOIN relaciones r on a.id_alumno = r.id_alumno
 JOIN profesores p on p.nombre_profesor = "FERNANDO GARCIA";
 
 /*11.- Mostrar todos los alumnos (codigo) que hayan aprobado con el profesor P01.*/
-SELECT a.id_alumno as id_alumno FROM alumnos a 
-JOIN relaciones r on a.id_alumno = r.id_alumno
-JOIN profesores p on p.id_profesor = "P01"
-WHERE r.nota >=5;
+SELECT id_alumno
+FROM relaciones
+WHERE nota >= 5
+AND id_profesor LIKE 'P01';
 
 /*12.- Mostrar todos los alumnos (nombre) que hayan aprobado con el profesor P01.*/
 SELECT a.nombre_alumno as nombre_alumno FROM alumnos a 
