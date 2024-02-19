@@ -16,4 +16,5 @@ ON DELETE CASCADE
 ON UPDATE CASCADE 
 
 as = como
+on = en
 */

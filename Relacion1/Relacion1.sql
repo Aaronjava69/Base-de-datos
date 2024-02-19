@@ -96,27 +96,34 @@ WHERE nota >= 5
 AND id_profesor LIKE 'P01';
 
 /*12.- Mostrar todos los alumnos (nombre) que hayan aprobado con el profesor P01.*/
-SELECT a.nombre_alumno as nombre_alumno FROM alumnos a 
-JOIN relaciones r on a.id_alumno = r.id_alumno
-JOIN profesores p on p.id_profesor = "P01"
-WHERE r.nota >=5;
+SELECT a.nombre_alumno AS nombre_alumno
+FROM alumnos a
+JOIN relaciones r ON a.id_alumno = r.id_alumno
+WHERE r.nota >= 5
+AND r.id_profesor LIKE 'P01';
 
 /*13.- Mostrar todos los alumnos (nombre) que hayan aprobado con el profesor ‘CARMEN TORRES’.*/
-SELECT a.nombre_alumno as nombre_alumno FROM alumnos a
-JOIN relaciones r on a.id_alumno = r.id_alumno
-JOIN profesores p on p.nombre_profesor = "CARMEN TORRES";
+SELECT a.nombre_alumno AS nombre_alumno
+FROM alumnos a
+JOIN relaciones r ON a.id_alumno = r.id_alumno
+JOIN profesores p ON p.id_profesor LIKE r.id_profesor
+WHERE r.nota >= 5
+AND nombre_profesor LIKE 'Carmen Torres';
 
 /*14.- Mostrar el alumno/s que haya obtenido la nota más alta con ‘P01’,*/
-SELECT a.nombre_alumno as nombre_alumno FROM alumnos a
-JOIN relaciones r on a.id_alumno = r.id_alumno
-JOIN profesores p on p.id_profesor = "P01"
-ORDER BY r.nota DESC
-LIMIT 1; #La cláusula "limit" se usa para restringir los registros que se retornan en una consulta "select".
+SELECT a.nombre_alumno AS nombre_alumno, r.nota, r.id_profesor
+FROM alumnos a
+JOIN relaciones r ON a.id_alumno = r.id_alumno
+WHERE r.id_profesor LIKE 'P01'
+AND r.nota = (
+	SELECT max(nota) FROM relaciones WHERE id_profesor LIKE "P01"
+);
 
 /*15.- Mostrar los alumnos (nombre y codigo) que hayan aprobado todo.*/
-SELECT DISTINCT a.id_alumno as id_alumno, a.nombre_alumno as nombre_alumno FROM alumnos a
-JOIN relaciones r on r.id_alumno = a.id_alumno
+SELECT DISTINCT a.id_alumno AS id_alumno, a.nombre_alumno AS nombre_alumno
+FROM alumnos a
+JOIN relaciones r ON r.id_alumno = a.id_alumno
 WHERE NOT EXISTS (
-			SELECT 1 FROM relaciones r2
-            WHERE r2.id_alumno = a.id_alumno AND r2.nota < 5
-            );
+	SELECT 1 FROM relaciones r2
+    WHERE r2.id_alumno = a.id_alumno AND r2.nota < 5
+);
