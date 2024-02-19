@@ -17,4 +17,7 @@ ON UPDATE CASCADE
 
 as = como
 on = en
+where = donde
+update = actualizar
+set = colocar
 */

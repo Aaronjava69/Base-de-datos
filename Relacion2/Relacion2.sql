@@ -110,21 +110,42 @@ JOIN fabricantes f on a.clave_fabricante = f.clave_fabricante;
 #ON = En
 
 /*r) Obtener la clave de producto, nombre del producto y nombre del fabricante de todos los productos en venta*/
-SELECT a.clave_articulo, a.nombre, f.nombre FROM articulos a
-JOIN fabricantes f on a.clave_fabricante = f.clave_fabircante;
+SELECT a.clave_articulo, a.nombre, f.nombre
+FROM articulos a
+JOIN fabricantes f ON a.clave_fabricante = f.clave_fabricante;
 
 /*s) Obtener el nombre y precio de los artículos donde el fabricante sea Logitech ordenarlos alfabéticamente por nombre
 del producto*/
+SELECT a.nombre, a.precio FROM articulos a
+JOIN fabricantes f ON f.clave_fabricante = f.clave_fabricante
+WHERE f.nombre = "Logitech"
+ORDER BY a.nombre;
 
-/*Obtener el nombre, precio y nombre de fabricante de los productos que son marca Lexar o Kingston ordenados
+/*t) Obtener el nombre, precio y nombre de fabricante de los productos que son marca Lexar o Kingston ordenados
 descendentemente por precio*/
+SELECT a.nombre, a.precio, f.nombre FROM articulos a
+JOIN fabricantes f on f.clave_fabricante = f.clave_fabricante
+WHERE f.nombre IN ("Lexar", "Kingston")
+ORDER BY a.precio desc;
 
 /*u) Añade un nuevo producto: Clave del producto 11, Altavoces de $ 120 del fabricante 2*/
+INSERT INTO articulos VALUES (11, "Altavoces", 120, 2);
 
 /*v) Cambia el nombre del producto 6 a ‘Impresora Laser’*/
+UPDATE articulos #UPDATE = actualizar
+SET nombre = "Impresora Laser"
+WHERE clave_articulo = 6;
 
 /*w) Aplicar un descuento del 10% a todos los productos.*/
+SET SQL_SAFE_UPDATES = 0;
+UPDATE articulos
+SET precio = precio * 0.90;
 
 /*x) Aplicar un descuento de $ 10 a todos los productos cuyo precio sea mayor o igual a $ 300*/
+UPDATE articulos
+SET precio = precio - 10
+WHERE precio >= 300;
 
 /*y) Borra el producto numero 6*/
+DELETE FROM articulos
+WHERE clave_articulo = 6;
